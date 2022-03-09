@@ -17,40 +17,59 @@ let dijkstra_success = true;
 let drag
 let new_v1, new_v2;
 let canv = new Canvas(c);
+let mouseClick = false;
 
-function downListener(){
-  drag = false
+function downListener() {
+    mouseClick = true;
+    drag = false
 }
 document.addEventListener('mousedown', downListener)
 function moveListener() {
-    if(!drag){
+    if (!drag) {
         new_v1 = [window.event.clientX, window.event.clientY]
     }
     drag = true
+    if (mouseClick && drag) {
+        drawProvisoryLine(new_v1);
+    }
+}
+
+function drawProvisoryLine(v1) {
+    canv.draw()
+    c.lineWidth = 1;
+    c.beginPath();
+    c.moveTo(v1[0], v1[1]);
+    c.lineTo(window.event.clientX, window.event.clientY);
+    c.strokeStyle = "gray";
+    c.lineWidth = 2;
+    c.stroke();
 
 }
 document.addEventListener('mousemove', moveListener)
-function upListener(){
-  if (drag) {
-    
-    if (toggleAddVertex) {
-        document.getElementById("toggle").innerText = "Add Vertex OFF";
-        toggleAddVertex = !toggleAddVertex
-    }
+function upListener() {
+    mouseClick = false;
+    canv.draw();
+    if (drag) {
 
-    new_v2 = [window.event.clientX, window.event.clientY]
-    for(var i = 0; i < canv.verteces.length; i++){
-        if (new_v1[0] > canv.verteces[i].x - r && new_v1[0] < canv.verteces[i].x + r && new_v1[1] > canv.verteces[i].y - r && new_v1[1] < canv.verteces[i].y + r){
-            document.getElementById("v1").value = canv.verteces[i].name;
+        if (toggleAddVertex) {
+            document.getElementById("toggle").innerText = "Add Vertex OFF";
+            toggleAddVertex = !toggleAddVertex
         }
 
-        if (new_v2[0] > canv.verteces[i].x - r && new_v2[0] < canv.verteces[i].x + r && new_v2[1] > canv.verteces[i].y - r && new_v2[1] < canv.verteces[i].y + r){
-            document.getElementById("v2").value = canv.verteces[i].name;
+        new_v2 = [window.event.clientX, window.event.clientY]
+        for (var i = 0; i < canv.verteces.length; i++) {
+            if (new_v1[0] > canv.verteces[i].x - r && new_v1[0] < canv.verteces[i].x + r && new_v1[1] > canv.verteces[i].y - r && new_v1[1] < canv.verteces[i].y + r) {
+                document.getElementById("v1").value = canv.verteces[i].name;
+            }
+
+            if (new_v2[0] > canv.verteces[i].x - r && new_v2[0] < canv.verteces[i].x + r && new_v2[1] > canv.verteces[i].y - r && new_v2[1] < canv.verteces[i].y + r) {
+                document.getElementById("v2").value = canv.verteces[i].name;
+            }
         }
+        console.log(new_v1);
+        console.log(new_v2);
     }
-    console.log(new_v1);
-    console.log(new_v2);
-  }
+    drag = false;
 }
 document.addEventListener('mouseup', upListener)
 
@@ -69,7 +88,7 @@ function getPath() {
     if (v_start != null && v_end != null) {
         selectAlgo(algo, v_start, v_end);
     }
-    else{
+    else {
         throw new Error("Node not found")
     }
 }
@@ -133,7 +152,7 @@ function getPosition() {
     if (toggleAddVertex) {
         var x = Number(document.getElementById("vx").value);
         var y = Number(document.getElementById("vy").value);
-        canv.addVertex(x,y);
+        canv.addVertex(x, y);
     }
 }
 
