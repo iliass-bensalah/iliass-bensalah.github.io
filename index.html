@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Graphs</title>
+    <meta charset="UTF-8">
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        .border table,
+        .border tr,
+        .border th,
+        .border td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        td {
+            vertical-align: top;
+            padding: 5px;
+            padding-top: 0px;
+        }
+    </style>
+</head>
+
+<body style="font-family: Arial">
+    <table>
+        <tr>
+            <td style="width: 62%;padding: 0px;">
+                <canvas onclick="getPosition()"></canvas>
+            </td>
+            <td style="width: 8%;">
+                <table style="width:100%;border: 1px solid black">
+                    <tr>
+                        <th colspan="2">Add Vertex</th>
+                    </tr>
+                    <tr>
+                        <td>X</td>
+                        <td><input type="number" id="vx" name="x position" size="6"></td>
+                    </tr>
+                    <tr>
+                        <td>Y</td>
+                        <td><input type="number" id="vy" name="y position" size="6"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><button style="width:100%" onclick="addVertex()" type="button" id="toggle">Add Vertex
+                                OFF</button></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Add Edge</th>
+                    </tr>
+                    <tr>
+                        <td>From</td>
+                        <td><input type="text" id="v1" name="start" size="6"></td>
+                    </tr>
+                    <tr>
+                        <td>To</td>
+                        <td><input type="text" id="v2" name="end" size="6"></td>
+                    </tr>
+                    <tr>
+                        <td>Weight</td>
+                        <td><input type="number" id="weight" name="weight" size="6"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><button style="width:100%" onclick="addEdge()" type="button">Add</button></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Select Algorithm</th>
+                    </tr>
+                    <tr>
+                        <td>Start</td>
+                        <td><input type="text" id="start" name="start" size="6"></td>
+                    </tr>
+                    <tr>
+                        <td>End</td>
+                        <td><input type="text" id="end" name="end" size="6"></td>
+                    </tr>
+                    <tr>
+                        <td>Algorithm</td>
+                        <td>
+                            <select id="algo" name="algorithm">
+                                <option value="breadth">Breadth Search</option>
+                                <option value="depth">Depth Search</option>
+                                <option value="dijkstra">Dijkstra</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><button style="width:100%" onclick="getPath()" type="button">Get Path</button></td>
+                    </tr>
+        
+                    <tr>
+                        <td colspan="2"><input type="button" style="width:100%" value="clear edges" id="clear" size="23" onclick="canv.clearEdges()"
+                                style="position:relative;"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><button style="width:100%" onclick="canv.cancel()" type="button">Cancel</button></td>
+                    </tr>
+                </table>
+            </td>
+            <td class="border" style="width: 30%;">
+                <div class="output" id="output"> </div>
+            </td>
+        </tr>
+    </table>
+    <script src="./js/canvas.js"></script>
+    <script src="./js/output.js"></script>
+    <script src="./js/graph.js"></script>
+    <script src="./js/vertex.js"></script>
+    <script src="./js/edge.js"></script>
+    <script src="./js/dijkstra.js"></script>
+    <script src="./js/dfs.js"></script>
+    <script src="./js/bfs.js"></script>
+    <script src="./js/helpers.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
