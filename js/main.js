@@ -48,14 +48,7 @@ function drawProvisoryLine(v1) {
 document.addEventListener('mousemove', moveListener)
 function upListener() {
     mouseClick = false;
-    canv.draw();
     if (drag) {
-
-        if (toggleAddVertex) {
-            document.getElementById("toggle").innerText = "Add Vertex OFF";
-            toggleAddVertex = !toggleAddVertex
-        }
-
         new_v2 = [window.event.clientX, window.event.clientY]
         for (var i = 0; i < canv.verteces.length; i++) {
             if (new_v1[0] > canv.verteces[i].x - r && new_v1[0] < canv.verteces[i].x + r && new_v1[1] > canv.verteces[i].y - r && new_v1[1] < canv.verteces[i].y + r) {
@@ -69,6 +62,9 @@ function upListener() {
         console.log(new_v1);
         console.log(new_v2);
     }
+    else if (toggleAddVertex){
+        addVertex();
+    }
     drag = false;
 }
 document.addEventListener('mouseup', upListener)
@@ -77,8 +73,8 @@ function getPath() {
     found = false;
     dijkstra_success = true;
     out.reset();
-    var s_start = document.getElementById("start").value;
-    var s_end = document.getElementById("end").value;
+    var s_start = document.getElementById("start").value.toUpperCase();
+    var s_end = document.getElementById("end").value.toUpperCase();
     var algo = document.getElementById("algo").value;
     // get the objects
     var v_start = getVertex(s_start);
@@ -142,7 +138,8 @@ function getNeighbors(v) {
     return neighbors
 }
 
-function getPosition() {
+function addVertex() {
+
     var x = window.event.clientX;     // Get the horizontal coordinate
     var y = window.event.clientY;     // Get the vertical coordinate
 
@@ -156,7 +153,7 @@ function getPosition() {
     }
 }
 
-function addVertex() {
+function toggleVertex() {
     toggleAddVertex = !toggleAddVertex;
     if (toggleAddVertex) {
         document.getElementById("toggle").innerText = "Add Vertex ON"

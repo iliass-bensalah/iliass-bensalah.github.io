@@ -10,6 +10,17 @@ class Canvas {
 
     addVertex(x, y) {
 
+        if (this.verteces.length >= 26){
+            return;
+        }
+
+        for (let i = 0; i < this.verteces.length; i++) {
+            const ver = this.verteces[i];
+            if (x >= ver.x - 2*r && x <= ver.x + 2*r && y >= ver.y - 2*r && y <= ver.y + 2*r){
+                return;
+            }
+        }
+
         var char = String.fromCharCode(65 + this.curr_vertex);
         var v = new Vertex(x, y, char);
         this.curr_vertex++;

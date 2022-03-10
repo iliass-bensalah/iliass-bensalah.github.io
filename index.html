@@ -13,6 +13,10 @@
             margin: 0;
         }
 
+        input {
+            width: calc(100% - 10px);
+        }
+
         .border table,
         .border tr,
         .border th,
@@ -33,7 +37,7 @@
     <table>
         <tr>
             <td style="width: 62%;padding: 0px;">
-                <canvas onclick="getPosition()"></canvas>
+                <canvas></canvas>
             </td>
             <td style="width: 8%;">
                 <table style="width:100%;border: 1px solid black">
@@ -49,7 +53,7 @@
                         <td><input type="number" id="vy" name="y position" size="6"></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><button style="width:100%" onclick="addVertex()" type="button" id="toggle">Add Vertex
+                        <td colspan="2"><button style="width:100%" onclick="toggleVertex()" type="button" id="toggle">Add Vertex
                                 OFF</button></td>
                     </tr>
                     <tr>
@@ -65,7 +69,7 @@
                     </tr>
                     <tr>
                         <td>Weight</td>
-                        <td><input type="number" id="weight" name="weight" size="6"></td>
+                        <td><input type="number" id="weight" name="weight" value="1" size="6"></td>
                     </tr>
                     <tr>
                         <td colspan="2"><button style="width:100%" onclick="addEdge()" type="button">Add</button></td>
