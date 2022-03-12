@@ -20,7 +20,7 @@ let canv = new Canvas(c);
 let mouseClick = false;
 
 canvas.addEventListener('mousedown', downListener)
-canvas.addEventListener('touchstart', downListener)
+// canvas.addEventListener('touchstart', downListener)
 function downListener() {
     mouseClick = true;
     drag = false
