@@ -81,4 +81,14 @@ class Canvas {
         }
         return null;
     }
+
+    getVertexByName(name) {
+        for (let i = 0; i < this.verteces.length; i++) {
+            const ver = this.verteces[i];
+            if (ver.name === name){
+                return ver;
+            }
+        }
+        return null;
+    }
 }
