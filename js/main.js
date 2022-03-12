@@ -19,15 +19,14 @@ let new_v1, new_v2;
 let canv = new Canvas(c);
 let mouseClick = false;
 
-canvas.addEventListener('mousedown', downListener)
 // canvas.addEventListener('touchstart', downListener)
 function downListener() {
     mouseClick = true;
     drag = false
 }
+canvas.addEventListener('mousedown', downListener)
 
-canvas.addEventListener('mousemove', moveListener)
-canvas.addEventListener("touchmove", moveListener);
+// canvas.addEventListener("touchmove", moveListener);
 function moveListener() {
     if (!drag) {
         new_v1 = [window.event.clientX, window.event.clientY]
@@ -37,6 +36,7 @@ function moveListener() {
         drawProvisoryLine(new_v1);
     }
 }
+canvas.addEventListener('mousemove', moveListener)
 
 function drawProvisoryLine(v1) {
     canv.draw()
@@ -49,9 +49,6 @@ function drawProvisoryLine(v1) {
     c.stroke();
 
 }
-
-canvas.addEventListener('mouseup', upListener)
-canvas.addEventListener('touchend', upListener)
 
 function upListener() {
     mouseClick = false;
@@ -74,6 +71,9 @@ function upListener() {
     }
     drag = false;
 }
+
+canvas.addEventListener('mouseup', upListener)
+// canvas.addEventListener('touchend', upListener)
 
 
 
