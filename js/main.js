@@ -46,6 +46,7 @@ function drawProvisoryLine(v1) {
 
 }
 document.addEventListener('mousemove', moveListener)
+document.addEventListener('touchmove', moveListener)
 function upListener() {
     mouseClick = false;
     if (drag) {
