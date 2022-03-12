@@ -19,11 +19,15 @@ let new_v1, new_v2;
 let canv = new Canvas(c);
 let mouseClick = false;
 
+canvas.addEventListener('mousedown', downListener)
+canvas.addEventListener('touchstart', downListener)
 function downListener() {
     mouseClick = true;
     drag = false
 }
-document.addEventListener('mousedown', downListener)
+
+canvas.addEventListener('mousemove', moveListener)
+canvas.addEventListener("touchmove", moveListener);
 function moveListener() {
     if (!drag) {
         new_v1 = [window.event.clientX, window.event.clientY]
@@ -45,7 +49,10 @@ function drawProvisoryLine(v1) {
     c.stroke();
 
 }
-document.addEventListener('mousemove', moveListener)
+
+canvas.addEventListener('mouseup', upListener)
+canvas.addEventListener('touchend', upListener)
+
 function upListener() {
     mouseClick = false;
     if (drag) {
@@ -67,7 +74,9 @@ function upListener() {
     }
     drag = false;
 }
-document.addEventListener('mouseup', upListener)
+
+
+
 
 function getPath() {
     found = false;
