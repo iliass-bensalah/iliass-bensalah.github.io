@@ -3,7 +3,6 @@ canvas.width = window.innerWidth * 0.63;
 canvas.height = window.innerHeight * 0.994;
 console.log(canvas);
 var c = canvas.getContext("2d");
-console.log("dims:", canvas.width, canvas.height)
 
 let r = 16;
 let out = new Output();
@@ -59,25 +58,50 @@ function drawProvisoryLine(v1) {
 document.addEventListener('mousemove', moveListener)
 
 function upListener() {
+    if (mouseClick && inputV1){
+        if (!!new_v1){
+
+            let closest_vertex = canv.getClosestVertex(new_v1[0], new_v1[1]);
+            if (!!closest_vertex){
+                vInputStart.value = canv.getClosestVertex(new_v1[0], new_v1[1]).name;
+                inputV1 = false;
+            }
+        }
+    }
+
+    if (mouseClick && inputV2){
+        if (!!new_v1){
+            let closest_vertex = canv.getClosestVertex(new_v1[0], new_v1[1]);
+            if (!!closest_vertex){
+                vInputEnd.value = canv.getClosestVertex(new_v1[0], new_v1[1]).name;
+                inputV2 = false;
+            }
+        }
+    }
+
     mouseClick = false;   
 
     if (drag && !toggleAddEdge) {
         new_v2 = [window.event.clientX, window.event.clientY]
 
-        let v_start = canv.getClosestVertex(new_v1[0], new_v1[1])
+        if (!!new_v1){
 
-        if (!!v_start){
+            let v_start = canv.getClosestVertex(new_v1[0], new_v1[1])
+
+            if (!!v_start){
             
-            vInputStart.value = v_start.name
-            let v_end = canv.getClosestVertex(new_v2[0], new_v2[1])
-            if (!!v_end){
-                
-                vInputEnd.value = canv.getClosestVertex(new_v2[0], new_v2[1]).name
-            }
+                vInputStart.value = v_start.name
+                let v_end = canv.getClosestVertex(new_v2[0], new_v2[1])
+                if (!!v_end){
+                    
+                    vInputEnd.value = canv.getClosestVertex(new_v2[0], new_v2[1]).name
+                }
         }
 
         console.log(new_v1);
         console.log(new_v2);
+
+        }
     }
     else if (toggleAddVertex){
         addVertex();
@@ -86,6 +110,19 @@ function upListener() {
     drag = false;
 }
 document.addEventListener('mouseup', upListener)
+
+function setV1() {
+    inputV1 = true;
+    inputV2 = false;
+}
+
+function setV2() {
+    inputV2 = true;
+    inputV1 = false;
+}
+vInputStart.addEventListener('mousedown', setV1)
+vInputEnd.addEventListener('mousedown', setV2)
+
 
 function getPath() {
     found = false;
@@ -159,6 +196,8 @@ function getNeighbors(v) {
 function addVertex() {
 
     if (toggleAddVertex && !!new_v1) {
+        document.getElementById("vx").value = new_v1[0];
+        document.getElementById("vy").value = new_v1[1];
         canv.addVertex(new_v1[0], new_v1[1]);
     }
 }
