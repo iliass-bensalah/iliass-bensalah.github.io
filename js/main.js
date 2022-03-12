@@ -24,7 +24,6 @@ function downListener() {
     drag = false
 }
 document.addEventListener('mousedown', downListener)
-document.addEventListener("touchmove", moveListener);
 
 function moveListener() {
     if (!drag) {
@@ -36,6 +35,7 @@ function moveListener() {
     }
 }
 document.addEventListener('mousemove', moveListener)
+// document.addEventListener("touchmove", moveListener);
 
 function drawProvisoryLine(v1) {
     canv.draw()
@@ -72,10 +72,7 @@ function upListener() {
 }
 
 document.addEventListener('mouseup', upListener)
-document.addEventListener('touchend', upListener)
-
-
-
+// document.addEventListener('touchend', upListener)
 
 function getPath() {
     found = false;
