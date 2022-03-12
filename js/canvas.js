@@ -71,4 +71,14 @@ class Canvas {
         }
         this.draw();
     }
+
+    getClosestVertex(x,y){
+        for (let i = 0; i < this.verteces.length; i++) {
+            const ver = this.verteces[i];
+            if (x >= ver.x - r && x <= ver.x + r && y >= ver.y - r && y <= ver.y + r){
+                return ver;
+            }
+        }
+        return null;
+    }
 }

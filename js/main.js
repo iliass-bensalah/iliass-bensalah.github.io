@@ -12,19 +12,24 @@ let graph = null;
 let max_vertex = 26;
 let curr_vertex = 0;
 let toggleAddVertex = false;
+let toggleAddEdge = false;
+let inputV1 = false;
+let inputV2 = false;
 let found = false
 let dijkstra_success = true;
 let drag
 let new_v1, new_v2;
 let canv = new Canvas(c);
 let mouseClick = false;
+let vInputStart = document.getElementById("v1");
+let vInputEnd = document.getElementById("v2");
 
 function downListener() {
     mouseClick = true;
     drag = false
 }
-document.addEventListener('mousedown', downListener)
-document.addEventListener('touchstart', downListener)
+canvas.addEventListener('mousedown', downListener)
+
 function moveListener() {
     if (!drag) {
         new_v1 = [window.event.clientX, window.event.clientY]
@@ -47,41 +52,84 @@ function drawProvisoryLine(v1) {
 
 }
 document.addEventListener('mousemove', moveListener)
-document.addEventListener('touchmove', moveListener)
+
 function upListener() {
     mouseClick = false;
-    if (drag) {
+
+    console.log("add vert", toggleAddVertex)
+    console.log("add edge", toggleAddEdge)
+    
+
+    if (drag && !toggleAddEdge) {
         new_v2 = [window.event.clientX, window.event.clientY]
         for (var i = 0; i < canv.verteces.length; i++) {
             if (new_v1[0] > canv.verteces[i].x - r && new_v1[0] < canv.verteces[i].x + r && new_v1[1] > canv.verteces[i].y - r && new_v1[1] < canv.verteces[i].y + r) {
-                document.getElementById("v1").value = canv.verteces[i].name;
+                vInputStart.value = canv.verteces[i].name;
             }
 
             if (new_v2[0] > canv.verteces[i].x - r && new_v2[0] < canv.verteces[i].x + r && new_v2[1] > canv.verteces[i].y - r && new_v2[1] < canv.verteces[i].y + r) {
-                document.getElementById("v2").value = canv.verteces[i].name;
+                vInputEnd.value = canv.verteces[i].name;
             }
         }
         console.log(new_v1);
         console.log(new_v2);
     }
-    else if (toggleAddVertex){
+    else if (toggleAddVertex && !toggleAddEdge){
         addVertex();
+    }
+    else if (toggleAddEdge){
+
+        const selectedVertex = canv.getClosestVertex(new_v1[0], new_v1[1])
+        console.log(new_v1)
+        console.log(selectedVertex)
+
+        if (inputV1 && !inputV2){
+            if (!!selectedVertex){
+                vInputStart.value = selectedVertex.name
+                toggleAddEdge = false;
+                inputV1 = false;
+            }
+        }
+        else if (inputV2 && !inputV1){
+            if (!!selectedVertex){
+                vInputEnd.value = selectedVertex.name
+                toggleAddEdge = false;
+                inputV2 = false;
+            }
+        }
+        
     }
     drag = false;
 }
 document.addEventListener('mouseup', upListener)
-document.addEventListener('touchend', upListener)
+
+function vInputStartListener(){
+    console.log("clicked v1 input")
+    toggleAddEdge = true;
+    inputV1 = true;
+    inputV2 = false;
+}
+vInputStart.addEventListener('mousedown', vInputStartListener)
+
+function vInputEndListener(){
+    console.log("clicked v2 input")
+    toggleAddEdge = true;
+    inputV2 = true;
+    inputV1 = false;
+
+}
+vInputEnd.addEventListener('mousedown', vInputEndListener)
 
 function getPath() {
     found = false;
     dijkstra_success = true;
     out.reset();
-    var s_start = document.getElementById("start").value.toUpperCase();
-    var s_end = document.getElementById("end").value.toUpperCase();
+    var sel_start = document.getElementById("start").value.toUpperCase();
+    var sel_end = document.getElementById("end").value.toUpperCase();
     var algo = document.getElementById("algo").value;
     // get the objects
-    var v_start = getVertex(s_start);
-    var v_end = getVertex(s_end);
+    var v_start = getVertex(sel_start);
+    var v_end = getVertex(sel_end);
     g = new Graph(canv.verteces)
     console.log(g)
     if (v_start != null && v_end != null) {
