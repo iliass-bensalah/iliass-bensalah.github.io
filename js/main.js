@@ -11,10 +11,12 @@ let dijkstra_unvisited = [];
 let graph = null;
 let max_vertex = 26;
 let curr_vertex = 0;
-let toggleAddVertex = false;
+let toggleAddVertex = true;
 let toggleAddEdge = false;
 let inputV1 = false;
 let inputV2 = false;
+let inputStart = false;
+let inputEnd = false;
 let found = false
 let dijkstra_success = true;
 let drag
@@ -23,6 +25,8 @@ let canv = new Canvas(c);
 let mouseClick = false;
 let vInputStart = document.getElementById("v1");
 let vInputEnd = document.getElementById("v2");
+let vSelStart = document.getElementById("start");
+let vSelEnd = document.getElementById("end");
 
 function downListener() {
     new_v1 = null;
@@ -58,23 +62,26 @@ function drawProvisoryLine(v1) {
 document.addEventListener('mousemove', moveListener)
 
 function upListener() {
-    if (mouseClick && inputV1){
-        if (!!new_v1){
-
-            let closest_vertex = canv.getClosestVertex(new_v1[0], new_v1[1]);
-            if (!!closest_vertex){
-                vInputStart.value = canv.getClosestVertex(new_v1[0], new_v1[1]).name;
-                inputV1 = false;
-            }
-        }
-    }
-
-    if (mouseClick && inputV2){
+    if (mouseClick){
         if (!!new_v1){
             let closest_vertex = canv.getClosestVertex(new_v1[0], new_v1[1]);
-            if (!!closest_vertex){
-                vInputEnd.value = canv.getClosestVertex(new_v1[0], new_v1[1]).name;
-                inputV2 = false;
+            if (!!closest_vertex){ 
+                if (inputV1){
+                    vInputStart.value = closest_vertex.name;
+                    inputV1 = false;
+                }
+                else if (inputV2){
+                    vInputEnd.value = closest_vertex.name;
+                    inputV2 = false;
+                }
+                else if (inputStart){
+                    vSelStart.value = closest_vertex.name;
+                    inputStart = false;
+                }
+                else if (inputEnd){
+                    vSelEnd.value = closest_vertex.name;
+                    inputEnd = false;
+                }
             }
         }
     }
@@ -114,14 +121,34 @@ document.addEventListener('mouseup', upListener)
 function setV1() {
     inputV1 = true;
     inputV2 = false;
+    inputStart = false;
+    inputEnd = false;
 }
 
 function setV2() {
-    inputV2 = true;
     inputV1 = false;
+    inputV2 = true;
+    inputStart = false;
+    inputEnd = false;
+}
+
+function setStart() {
+    inputV1 = false;
+    inputV2 = false;
+    inputStart = true;
+    inputEnd = false;
+}
+
+function setEnd() {
+    inputV1 = false;
+    inputV2 = false;
+    inputStart = false;
+    inputEnd = true;
 }
 vInputStart.addEventListener('mousedown', setV1)
 vInputEnd.addEventListener('mousedown', setV2)
+vSelStart.addEventListener('mousedown', setStart)
+vSelEnd.addEventListener('mousedown', setEnd)
 
 
 function getPath() {
@@ -196,8 +223,6 @@ function getNeighbors(v) {
 function addVertex() {
 
     if (toggleAddVertex && !!new_v1) {
-        document.getElementById("vx").value = new_v1[0];
-        document.getElementById("vy").value = new_v1[1];
         canv.addVertex(new_v1[0], new_v1[1]);
     }
 }
