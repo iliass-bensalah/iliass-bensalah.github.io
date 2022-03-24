@@ -20,7 +20,7 @@ function depthFirstSearch(g, v_start, v_end) {
     out.set("Discovered node: " + v_start.name);
     for (var i = 0; i < g.matrix[idx].length; i++) {
 
-        if (g.matrix[idx][i] == 0) {
+        if (g.matrix[idx][i] == 0 && idx == i) {
             continue;
         }
         else if (g.matrix[idx][i] == Infinity) {
